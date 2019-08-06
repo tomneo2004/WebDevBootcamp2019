@@ -1,0 +1,18 @@
+
+.modelbox{
+	display: inline-block;
+	border: 5px solid red;
+	padding: 5px 20px 5px 20px;
+	margin: 0px 20px;
+	width: 33px;
+	height: 55px;
+}
+
+p{
+	font-size: 5px;
+}
+
+span{
+	font-size: 2rem;
+}
+
