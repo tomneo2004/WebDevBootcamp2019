@@ -1,0 +1,94 @@
+.coolTitle {
+  text-align: center;
+  font-family: 'Oswald', Helvetica, sans-serif;
+  font-size: 40px;
+  transform: skewY(-10deg);
+  letter-spacing: 4px;
+  word-spacing: -8px;
+  color: tomato;
+  text-shadow: 
+    -1px -1px 0 firebrick,
+    -2px -2px 0 firebrick,
+    -3px -3px 0 firebrick,
+    -4px -4px 0 firebrick,
+    -5px -5px 0 firebrick,
+    -6px -6px 0 firebrick,
+    -7px -7px 0 firebrick,
+    -8px -8px 0 firebrick,
+    -30px 20px 40px dimgrey;
+}
+
+.done {
+  text-decoration: line-through;
+}
+
+h1{
+  text-align: center;;
+}
+
+.container{
+  display: flex;
+  flex-direction: column;
+}
+
+.input-section{
+ text-align: center;
+}
+
+ul{
+  list-style:none;
+}
+
+li{
+  position:relative;
+  display:flex;
+  justify-content:center;
+}
+
+li > button{
+  overflow:hidden;
+  margin:0 0 0 5px;
+  padding:0 0 0 0;
+  border:none;
+  outline: none;
+  width:0%;
+  transition: all .4s;
+}
+
+li > button:hover{
+  cursor:pointer;
+  color:red;
+}
+
+.expand{
+  width:3.5em;
+}
+
+li > h5{
+  position:relative;
+  font-size: 2.2em;
+  margin:0;
+  padding:0;
+  word-break: break-all;
+}
+
+hr{
+  position:absolute;
+  z-index:1;
+  top:.5em;
+  left:50%;
+  width:0%;
+  height:.15em;
+  background-color:red;
+  border: 0px solid red;
+  border-radius:70px;
+  margin:0;
+  padding:0;
+  transition: all .3s;
+}
+
+.strike{
+  width:100%;
+  left:0%;
+  border: 0.5px solid red;
+}
