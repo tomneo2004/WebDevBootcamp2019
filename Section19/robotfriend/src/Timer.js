@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import "./Timer.css";
 
 class Timer extends Component{
 
@@ -6,10 +7,14 @@ class Timer extends Component{
 		super();
 
 		this.state={
-			counter: 0
+			counter: 0,
+			timerId:null
 		}
+	}
 
-		setInterval(this.tick, 1000);
+	componentDidMount(){
+
+		this.restartTimer();
 	}
 
 	tick = ()=>{
@@ -17,11 +22,24 @@ class Timer extends Component{
 		this.setState({counter:this.state.counter+1});
 	}
 
+	restartTimer = ()=>{
+
+		if(this.state.timerId){
+			clearInterval(this.state.timerId);
+		}
+
+		this.setState({
+			counter:0,
+			timerId:setInterval(this.tick, 1000)
+		});
+	}
+
+
 	render(props){
 
 		return(
 
-			<h1>Timer:{this.state.counter}</h1>
+			<h1 className="timerTitle" onClick={this.restartTimer}>Timer:{this.state.counter}(Click to restart)</h1>
 		);
 	}
 }
