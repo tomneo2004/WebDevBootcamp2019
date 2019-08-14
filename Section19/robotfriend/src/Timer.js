@@ -24,7 +24,6 @@ class Timer extends Component{
 
 	restartTimer = ()=>{
 
-		console.log(this);
 		if(this.state.timerId){
 			clearInterval(this.state.timerId);
 		}
