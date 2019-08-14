@@ -4,6 +4,7 @@ import SearchBox from "../components/SearchBox";
 import Scroll from "../components/Scroll";
 import {robots} from "../robots";
 import Timer from "../Timer";
+import ErrorBoundary from "../components/ErrorBoundary";
 import "./App.css";
 
 class App extends Component{
@@ -47,12 +48,14 @@ class App extends Component{
 			return (
 
 				<div className="tc">
-					<Timer />
+					<Timer display={true} />
 					<h1 className="f1">RobotFriends</h1>
 					<SearchBox searchField={this.onSearchChanged} />
 
 					<Scroll>
-						<CardList robots={filterRobots} />
+						<ErrorBoundary>
+							<CardList robots={filterRobots} />
+						</ErrorBoundary>
 					</Scroll>
 				</div>
 			);

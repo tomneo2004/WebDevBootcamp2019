@@ -24,6 +24,7 @@ class Timer extends Component{
 
 	restartTimer = ()=>{
 
+		console.log(this);
 		if(this.state.timerId){
 			clearInterval(this.state.timerId);
 		}
@@ -34,12 +35,19 @@ class Timer extends Component{
 		});
 	}
 
+	display(onOff){
+		if(onOff){
+			return <h1 className="timerTitle" onClick={this.restartTimer}>Timer:{this.state.counter}(Click to restart)</h1>
+		}
+	}
+
 
 	render(props){
 
 		return(
-
-			<h1 className="timerTitle" onClick={this.restartTimer}>Timer:{this.state.counter}(Click to restart)</h1>
+			<div>
+				{this.display(this.props.display)}
+			</div>
 		);
 	}
 }
