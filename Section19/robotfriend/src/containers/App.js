@@ -7,13 +7,17 @@ import Timer from "../Timer";
 import ErrorBoundary from "../components/ErrorBoundary";
 import "./App.css";
 import {connect} from "react-redux";
-import {setSearchField, updateResultCount} from "../actions";
+import {setSearchField, updateResultCount, requestRobots} from "./actions";
+
 
 const mapStateToProps = state => {
 		
 		return {
-			searchField:state.searchField,
-			resultCount:state.resultCount
+			searchField: state.searchRobots.searchField,
+			resultCount: state.searchRobots.resultCount,
+			robots: state.requestRobots.robots,
+			isPending : state.requestRobots.isPending,
+			error: state.requestRobots.error 
 		}
 }
 	
@@ -22,42 +26,51 @@ const mapDispatchToProps = dispatch => {
 
 		return {
 			onSearchChanged: (event) => dispatch(setSearchField(event.target.value)),
-			onUpdateResultCount: (resultCount) => dispatch(updateResultCount(resultCount))
+			onUpdateResultCount: (resultCount) => dispatch(updateResultCount(resultCount)),
+			onRequestRobots: () => dispatch(requestRobots())
 		}
 }
 
 class App extends Component{
 
-	constructor(){
-		super();
+	// constructor(){
+	// 	super();
 
-		this.state = {
-			robots:[]
-		}
-	}
+	// 	this.state = {
+	// 		robots:[]
+	// 	}
+	// }
 
 	componentDidMount(){
 
-		fetch("https://jsonplaceholder.typicode.com/users")
-		.then(response=> response.json())
-		.then(users=> this.setState({robots:users}));
+		// fetch("https://jsonplaceholder.typicode.com/users")
+		// .then(response=> response.json())
+		// .then(users=> this.setState({robots:users}));
+
+		this.props.onRequestRobots();
 	}
 
 	render(){
 
-		console.log(this.props.resultCount);
-		const {robots} = this.state;
+		const {
 
-		const {searchField, resultCount, onSearchChanged, onUpdateResultCount} = this.props;
+			searchField,
+		 	resultCount,
+		 	onSearchChanged,
+		  	onUpdateResultCount,
+		  	robots,
+		  	isPending
+
+		  } = this.props;
 
 		const filterRobots = robots.filter((robot)=>{
 
 			return robot.name.toLowerCase().includes(searchField.toLowerCase());
 		});
 
-		onUpdateResultCount(filterRobots.length);
+		// onUpdateResultCount(filterRobots.length);
 
-		if(!robots.length){
+		if(isPending){
 			return <h1>Loading</h1>
 		}
 		else{
@@ -68,7 +81,7 @@ class App extends Component{
 					<Timer display={true} />
 					<h1 className="f1">RobotFriends</h1>
 					<SearchBox searchField={onSearchChanged} />
-					<h1>Search result count:{resultCount}</h1>
+					{ /* <h1>Search result count:{resultCount}</h1> */}
 					<Scroll>
 						<ErrorBoundary>
 							<CardList robots={filterRobots} />

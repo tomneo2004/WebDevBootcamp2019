@@ -6,6 +6,8 @@ class Timer extends Component{
 	constructor(){
 		super();
 
+		this.mounted = false;
+
 		this.state={
 			counter: 0,
 			timerId:null
@@ -14,12 +16,22 @@ class Timer extends Component{
 
 	componentDidMount(){
 
+		this.mounted = true;
 		this.restartTimer();
+	}
+
+	componentWillUnmount(){
+
+		this.mounted = false;
+		clearInterval(this.state.timerId);
 	}
 
 	tick = ()=>{
 
-		this.setState({counter:this.state.counter+1});
+		if(this.mounted){
+			this.setState({counter:this.state.counter+1});
+		}
+		
 	}
 
 	restartTimer = ()=>{
@@ -28,10 +40,13 @@ class Timer extends Component{
 			clearInterval(this.state.timerId);
 		}
 
-		this.setState({
-			counter:0,
-			timerId:setInterval(this.tick, 1000)
-		});
+		if(this.mounted){
+			this.setState({
+				counter:0,
+				timerId:setInterval(this.tick, 1000)
+			});	
+		}
+		
 	}
 
 	display(onOff){
