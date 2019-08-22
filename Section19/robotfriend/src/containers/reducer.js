@@ -12,7 +12,7 @@ const initialState = {
 };
 
 export const searchRobots = (state=initialState, action={})=>{
-
+	debugger;
 	switch(action.type){
 
 		case CHANGE_SEARCH_FIELD:
@@ -35,7 +35,7 @@ const initialStateRobots = {
 }
 
 export const requestRobots = (state=initialStateRobots, action={})=>{
-
+	debugger;
 	switch(action.type){
 		case REQUEST_ROBOTS_PENDING:
 			return Object.assign({}, state, {isPending:true});
