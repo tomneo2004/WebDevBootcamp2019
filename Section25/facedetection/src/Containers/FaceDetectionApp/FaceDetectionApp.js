@@ -6,6 +6,7 @@ import Rank from "../../Components/Rank/Rank";
 import Clarifai from 'clarifai';
 import {connect} from 'react-redux';
 import {Redirect} from 'react-router-dom';
+import {UpdateUserAction} from '../../Containers/MainApp/actions';
 
 
 const app = new Clarifai.App({
@@ -14,8 +15,17 @@ const app = new Clarifai.App({
 
 const mapStateToProps = (state)=>({
 
-	isSignin: state.signin.isSignin
+	isSignin: state.signin.isSignin,
+	user: state.signin.user
 });
+
+const mapDispatchToProps = (dispatch)=>{
+
+	return {
+		onUpdateUser: (userData)=> dispatch(UpdateUserAction(userData))
+	}
+	
+}
 
 class FaceDetectionApp extends Component{
 
@@ -54,12 +64,28 @@ class FaceDetectionApp extends Component{
 
 	onSubmit = ()=>{
 
+		const {user, onUpdateUser} = this.props;
+
 		this.setState({imageURL:this.state.input}, ()=>{
 
 			this.setState({detectingFace:true});
 
 			app.models.predict(Clarifai.FACE_DETECT_MODEL, this.state.imageURL).then(
 		    (response) => {
+
+		    	fetch("http://localhost:3000/image", {
+					method:'put',
+					headers:{'Content-Type': 'application/json'},
+					body:JSON.stringify({
+						id:user.id
+					})
+				})
+				.then(res=>res.json())
+				.then(data=>{
+					console.log(data);
+					let userUpdateData = Object.assign({}, user, {entry:data.entry});
+					onUpdateUser(userUpdateData);
+				});
 
 		    	this.setState({detectingFace:false,boundingBox:this.calculateFaceBox(response)});
 		    },
@@ -73,7 +99,7 @@ class FaceDetectionApp extends Component{
 
 	render(){
 
-	  const {isSignin} = this.props;
+	  const {isSignin, user} = this.props;
 
 	  //if user sign in then they can use face detection
 	  //otherwise redirect user to sign in page
@@ -85,7 +111,7 @@ class FaceDetectionApp extends Component{
 	  return (
 	    <div>
 	    	<Logo />
-	      	<Rank />
+	      	<Rank name={user.name} rank={user.entry}/>
 	      	<ImageLinkForm onInputChange={this.onInputChange} onSubmit={this.onSubmit}/>
 	      	<FaceRecognition imageURL={this.state.imageURL} boundingBox={this.state.boundingBox} detectingFace={this.state.detectingFace}/>
 	    </div>
@@ -93,5 +119,5 @@ class FaceDetectionApp extends Component{
 	}
 }
 
-export default connect(mapStateToProps)(FaceDetectionApp);
+export default connect(mapStateToProps, mapDispatchToProps)(FaceDetectionApp);
 

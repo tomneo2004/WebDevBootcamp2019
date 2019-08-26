@@ -1,9 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 
 const app = express();
 
 app.use(bodyParser.json());
+app.use(cors());
 
 let users = [
 	{
@@ -16,7 +18,7 @@ let users = [
 	{
 		id:"2",
 		name:"Ken",
-		email:"Ken@gmai.com",
+		email:"Ken@gmail.com",
 		password:"12345",
 		entry:0
 	}
@@ -29,15 +31,25 @@ app.get('/', (req, res)=>{
 
 app.post('/signin', (req, res)=>{
 
-	if(req.body.email === users[0].email 
-		&& req.body.password === users[0].password){
+	// if(req.body.email === users[0].email 
+	// 	&& req.body.password === users[0].password){
 
-		res.json("Sign in successful");
-	}
-	else{
+	// 	res.json(users[users.length-1]);
+	// }
+	// else{
 
-		res.status(400).json("Sign in fail");
-	}
+	// 	res.status(400).json("Sign in fail");
+	// }
+
+	let userArr = users.filter((user)=>{
+		if(req.body.email === user.email 
+		&& req.body.password === user.password){
+			return true;
+		}
+		return false;
+	});
+
+	userArr.length === 0?res.status(400).json("Sign in fail") : res.json(userArr[0]);
 })
 
 app.post('/register', (req, res)=>{
@@ -52,7 +64,7 @@ app.post('/register', (req, res)=>{
 		entry:0
 	});
 
-	res.json('resiger successful'+users[users.length-1]);
+	res.json(users[users.length-1]);
 })
 
 app.get('/profile/:id', (req, res)=>{
@@ -81,7 +93,7 @@ app.put('/image', (req, res)=>{
 		if(user.id===id){
 			found = true;
 			user.entry+=1;
-			return res.json(users);
+			return res.json({entry:user.entry});
 		}
 	})
 

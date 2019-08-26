@@ -1,43 +1,22 @@
 import {
 
 	SIGN_IN,
-	SIGN_IN_PENDING,
 	SIGN_OUT,
-	REGISTER,
-	REGISTER_PENDING
+	UPDATE_USER
 
 } from "./constant";
 
-export const SigninAction = ({email, password})=>{
+export const SigninAction = (userData)=>{
 	
 	return (dispatch) =>{
 
-		dispatch({type:SIGN_IN_PENDING})
-
-		setTimeout(()=>{dispatch({
+		dispatch({
 			type:SIGN_IN,
-			payload: {email:email, password:password}
-		})}, 3000);
+			payload:userData
+		})
+
 	}
 	
-}
-
-export const RegisterAction = ({name, email, password, completeCB})=>{
-
-	return (dispatch) => {
-
-		dispatch({type:REGISTER_PENDING})
-
-		setTimeout(()=>{
-			completeCB();
-			dispatch({
-			type: REGISTER,
-			payload: {name:name, email:email, password:password}
-			})
-		}, 3000);
-
-		
-	}
 }
 
 export const SignoutAction = ()=>{
@@ -46,3 +25,11 @@ export const SignoutAction = ()=>{
 		payload: ""
 	}
 }
+
+export const UpdateUserAction = (userData)=>{
+	return{
+		type:UPDATE_USER,
+		payload:userData
+	}
+}
+

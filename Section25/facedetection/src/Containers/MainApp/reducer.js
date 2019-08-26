@@ -1,10 +1,8 @@
 import {
 	
 	SIGN_IN,
-	SIGN_IN_PENDING,
 	SIGN_OUT,
-	REGISTER,
-	REGISTER_PENDING
+	UPDATE_USER
 
 } from "./constant";
 
@@ -36,44 +34,27 @@ import {combineReducers} from 'redux';
 // }
 
 const SigninInitState = {
-	isSinginPending:false,
-	isSignin:false
+	isSignin:false,
+	user:{}
 }
 
 const SigninReducer = (state=SigninInitState, action={})=>{
 
 	switch(action.type){
 		case SIGN_IN:
-			return Object.assign({}, state, {isSinginPending:false, isSignin:true});
-
-		case SIGN_IN_PENDING:
-			return Object.assign({}, state, {isSinginPending:true, isSignin:false});
+			return Object.assign({}, state, {isSignin:true, user:action.payload});
 
 		case SIGN_OUT:
-			return Object.assign({}, state, {isSignin:false});
+			return Object.assign({}, state, {isSignin:false, user:{}});
+
+		case UPDATE_USER:
+			return Object.assign({}, state, {user:action.payload});
 
 		default:
 			return state;
 	}
 }
 
-const RegisterInitState = {
-	isRegisterPending:false
-}
 
-const RegisterReducer = (state=RegisterInitState, action={})=>{
 
-	switch(action.type){
-
-		case REGISTER_PENDING:
-			return Object.assign({}, state, {isRegisterPending:true});
-
-		case REGISTER:
-			return Object.assign({}, state, {isRegisterPending:false});
-
-		default:
-			return state;
-	}
-}
-
-export default combineReducers({signin:SigninReducer, register:RegisterReducer});
+export default combineReducers({signin:SigninReducer});

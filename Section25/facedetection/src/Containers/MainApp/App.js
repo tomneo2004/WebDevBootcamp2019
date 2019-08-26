@@ -8,7 +8,7 @@ import NotFound404 from "../../Components/NotFound404/NotFound404";
 
 import './App.css';
 import Particles from 'react-particles-js';
-import {BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import {Route, Switch, Redirect } from "react-router-dom";
 import {connect} from 'react-redux';
 
 
@@ -30,6 +30,7 @@ const particleOptions = {
 const mapStateToProps = (state)=>({
 
 	isSignin:state.signin.isSignin,
+	user:state.signin.user
 });
 
 
@@ -37,6 +38,12 @@ const mapStateToProps = (state)=>({
 class App extends Component {
 
 	
+	componentDidMount(){
+
+		fetch("http://localhost:3000/")
+		.then(response=>response.json())
+		.then(console.log);
+	}
 
 	render(){
 		console.log(this.props);

@@ -4,7 +4,7 @@ import './index.css';
 import App from './Containers/MainApp/App';
 import * as serviceWorker from './serviceWorker';
 import "tachyons";
-import {applyMiddleware, createStore, combineReducers} from 'redux';
+import {applyMiddleware, createStore} from 'redux';
 import logger from 'redux-logger';
 import { Provider} from 'react-redux';
 import rootReducer from "./Containers/MainApp/reducer";
